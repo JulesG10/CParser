@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AresIO.cpp" />
     <ClCompile Include="src\AresLog.cpp" />
     <ClCompile Include="src\AresSetup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\core\Ares.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AresIO.h" />
     <ClInclude Include="src\AresSetup.h" />
     <ClInclude Include="src\AresLog.h" />
     <ClInclude Include="src\core\Ares.h" />

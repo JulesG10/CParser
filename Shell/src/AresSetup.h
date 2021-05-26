@@ -24,7 +24,6 @@ namespace AresConsole
 			"backups",
 			"extensions",
 			"temp",
-			""
 		};
 	};
 }

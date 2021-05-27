@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<Windows.h>
 #include<Shlwapi.h>
@@ -23,7 +24,7 @@ namespace AresConsole
 		IOCodes file_remove(char*);
 		
 		IOCodes folder_exists(char*);
-		IOCodes folder_remove();
+		IOCodes folder_remove(char*);
 
 		bool exists(char*);
 	};

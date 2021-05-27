@@ -6,7 +6,7 @@ AresLog::AresLog()
 	console = GetStdHandle(STD_OUTPUT_HANDLE);
 }
 
-void AresLog::print(const char* v, LogTypes type, char end = '\n')
+void AresLog::print(const char* v, LogTypes type, char end)
 {
 	switch (type)
 	{
@@ -27,7 +27,7 @@ void AresLog::print(const char* v, LogTypes type, char end = '\n')
 		break;
 	}
 	std::cout << v << end;
-	SetConsoleTextAttribute(console, 1);
+	SetConsoleTextAttribute(console, (FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED));
 }
 
 void AresLog::color(int color)

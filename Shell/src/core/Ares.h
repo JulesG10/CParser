@@ -1,4 +1,5 @@
 #pragma onçce
+#define _CRT_SECURE_NO_WARNINGS
 #include "../AresLog.h"
 #include "../AresSetup.h"
 namespace AresConsole
@@ -6,12 +7,13 @@ namespace AresConsole
 	class Ares
 	{
 	public:
-		Ares();
+		Ares(char**);
 		~Ares();
 		int start();
 	private:
-		AresSetup setup;
-		AresLog log;
+		AresSetup* setup;
+		AresLog* log;
+		char** argv;
 	};
 }
 

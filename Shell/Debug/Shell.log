@@ -1,10 +1,10 @@
-﻿  AresLog.cpp
-C:\Users\jules\OneDrive\Bureau\Mini-Apps\Shell\Shell\src\AresLog.cpp(10,1): error C2761: 'AresConsole::AresLog &AresConsole::AresLog::operator <<(const T &)' : la redéclaration du membre n'est pas autorisée
-C:\Users\jules\OneDrive\Bureau\Mini-Apps\Shell\Shell\src\AresLog.cpp(11,1): error C2447: '{' : en-tête de fonction manquant (liste formelle à l'ancien format ?)
-  AresSetup.cpp
-C:\Users\jules\OneDrive\Bureau\Mini-Apps\Shell\Shell\src\AresSetup.h(3,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'Log.h' : No such file or directory
-  main.cpp
-C:\Users\jules\OneDrive\Bureau\Mini-Apps\Shell\Shell\main.cpp(2,10): fatal error C1083: Impossible d'ouvrir le fichier include : 'Ares.h' : No such file or directory
-  Ares.cpp
-C:\Users\jules\OneDrive\Bureau\Mini-Apps\Shell\Shell\src\core\Ares.h(1,9): warning C4068: pragma inconnu 'onçce'
-  Génération de code en cours...
+﻿  AresIO.cpp
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(24,15): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(24,15): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(43,14): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(43,14): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(62,17): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(62,17): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(81,16): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
+C:\APPS\run\Shell\Shell\src\AresIO.cpp(81,16): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
+  Shell.vcxproj -> C:\APPS\run\Shell\Debug\Shell.exe

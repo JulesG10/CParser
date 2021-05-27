@@ -21,6 +21,7 @@ IOCodes AresIO::file_exists(char* file)
 		{
 			c = IOCodes::SUCCESS;
 		}
+		delete wfile;
 	}
 
 	return c;
@@ -39,6 +40,7 @@ IOCodes AresIO::file_remove(char* file)
 	{
 		return IOCodes::SUCCESS;
 	}
+	delete wfile;
 
 	return IOCodes::FAIL;
 }
@@ -50,16 +52,34 @@ IOCodes AresIO::folder_exists(char* folder)
 		wchar_t wfolder[MAX_PATH];
 		mbstowcs(wfolder, folder, MAX_PATH);
 		LPSECURITY_ATTRIBUTES lpSecurityAttr = {};
-		if (CreateDirectory(wfolder, lpSecurityAttr))
+		if (!CreateDirectory(wfolder, lpSecurityAttr))
 		{
 			return IOCodes::FAIL;
 		}else
 		{
 			return IOCodes::SUCCESS;
 		}
+		delete wfolder;
 	}
 
 	return IOCodes::EXISTS;
+}
+
+IOCodes AresIO::folder_remove(char* folder)
+{
+	if (!this->exists(folder))
+	{
+		return IOCodes::NO_FOUND;
+	}
+
+	wchar_t wfolder[MAX_PATH];
+	mbstowcs(wfolder, folder, MAX_PATH);
+	if (RemoveDirectory(wfolder))
+	{
+		return IOCodes::SUCCESS;
+	}
+	delete wfolder;
+	return IOCodes::FAIL;
 }
 
 bool AresIO::exists(char* path)

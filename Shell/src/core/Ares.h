@@ -1,4 +1,4 @@
-#pragma onçce
+#pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include "../AresLog.h"
 #include "../AresSetup.h"

@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\commands\AresCoreCmd.cpp" />
+    <ClCompile Include="src\commands\AresPaint.cpp" />
+    <ClCompile Include="src\commands\AresFiles.cpp" />
+    <ClCompile Include="src\commands\AresRequest.cpp" />
+    <ClCompile Include="src\commands\AresStorage.cpp" />
+    <ClCompile Include="src\commands\AresCommandObject.cpp" />
     <ClCompile Include="src\extension\AresSettings.cpp" />
     <ClCompile Include="src\extension\AresData.cpp" />
     <ClCompile Include="src\core\AresCmd.cpp" />
@@ -32,6 +38,12 @@
     <ClCompile Include="src\core\Ares.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\commands\AresCoreCmd.h" />
+    <ClInclude Include="src\commands\AresPaint.h" />
+    <ClInclude Include="src\commands\AresFiles.h" />
+    <ClInclude Include="src\commands\AresRequest.h" />
+    <ClInclude Include="src\commands\AresStorage.h" />
+    <ClInclude Include="src\commands\AresCommandObject.h" />
     <ClInclude Include="src\extension\AresSettings.h" />
     <ClInclude Include="src\extension\AresData.h" />
     <ClInclude Include="src\core\AresCmd.h" />

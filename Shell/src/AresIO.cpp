@@ -21,7 +21,6 @@ IOCodes AresIO::file_exists(char* file)
 		{
 			c = IOCodes::SUCCESS;
 		}
-		delete wfile;
 	}
 
 	return c;
@@ -84,17 +83,14 @@ IOCodes AresIO::folder_remove(char* folder)
 
 bool AresIO::exists(char* path)
 {
-	DWORD typ = GetFileAttributesA(path);
-	if (typ == INVALID_FILE_ATTRIBUTES)
+	wchar_t wpath[MAX_PATH];
+	mbstowcs(wpath, path, MAX_PATH);
+	if (INVALID_FILE_ATTRIBUTES == GetFileAttributes(wpath) && GetLastError() == ERROR_FILE_NOT_FOUND)
 	{
 		return false;
 	}
-	else if (typ & FILE_ATTRIBUTE_DIRECTORY)
-	{
-		return true;
-	}
 
-	return false;
+	return true;
 }
 
 AresIO::~AresIO()

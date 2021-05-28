@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\extension\AresSettings.cpp" />
+    <ClCompile Include="src\extension\AresData.cpp" />
+    <ClCompile Include="src\core\AresCmd.cpp" />
+    <ClCompile Include="src\extension\AresServer.cpp" />
+    <ClCompile Include="src\core\AresArgs.cpp" />
+    <ClCompile Include="src\extension\AresExtension.cpp" />
     <ClCompile Include="src\AresIO.cpp" />
     <ClCompile Include="src\AresLog.cpp" />
     <ClCompile Include="src\AresSetup.cpp" />
@@ -26,6 +32,12 @@
     <ClCompile Include="src\core\Ares.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\extension\AresSettings.h" />
+    <ClInclude Include="src\extension\AresData.h" />
+    <ClInclude Include="src\core\AresCmd.h" />
+    <ClInclude Include="src\extension\AresServer.h" />
+    <ClInclude Include="src\core\AresArgs.h" />
+    <ClInclude Include="src\extension\AresExtension.h" />
     <ClInclude Include="src\AresIO.h" />
     <ClInclude Include="src\AresSetup.h" />
     <ClInclude Include="src\AresLog.h" />

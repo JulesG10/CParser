@@ -1,10 +1,5 @@
-﻿  AresIO.cpp
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(24,15): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(24,15): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(43,14): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(43,14): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(62,17): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(62,17): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(81,16): warning C4156: suppression d'une expression de tableau sans utiliser la forme 'delete' de tableau ; substituée par la forme de tableau
-C:\APPS\run\Shell\Shell\src\AresIO.cpp(81,16): warning C4154: suppression d'une expression de tableau ; conversion en pointeur fournie
+﻿  AresSetup.cpp
+  Ares.cpp
+C:\APPS\run\Shell\Shell\src\core\Ares.h(1,9): warning C4068: pragma inconnu 'onçce'
+  Génération de code en cours...
   Shell.vcxproj -> C:\APPS\run\Shell\Debug\Shell.exe

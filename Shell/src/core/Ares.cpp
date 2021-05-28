@@ -13,7 +13,16 @@ Ares::Ares(char** args)
 int Ares::start()
 {
 	this->setup->start(this->argv[0]);
-	std::cin.get();
+	while (true)
+	{
+		log->print(">", L_NONE, ' ');
+		std::string line;
+		std::getline(std::cin, line);
+		if (line == "exit")
+		{
+			break;
+		}
+	}
 	return 0;
 }
 

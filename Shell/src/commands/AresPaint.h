@@ -1,6 +1,13 @@
 #pragma once
 #include "AresCommandObject.h"
 #include "../AresLog.h"
+#include<iostream>
+#include<string>
+#include <regex>
+#include<thread>
+
+
+
 namespace AresConsole
 {
 	class AresPaint : public AresCommandObject

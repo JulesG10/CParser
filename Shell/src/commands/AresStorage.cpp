@@ -84,6 +84,11 @@ bool AresStorage::execute(char* input)
 		{
 			req = "SELECT * FROM storage";
 		}
+		else
+		{
+			std::string msg = "Command '" + action + "' not found";
+			log->print(msg.c_str());
+		}
 
 		this->execute_sqlite3(req);
 	}

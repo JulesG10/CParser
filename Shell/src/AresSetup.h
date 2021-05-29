@@ -46,7 +46,8 @@ namespace AresConsole
 			"temp",
 			"settings",
 			"data\\images",
-			"data\\files"
+			"data\\files",
+			"data\\downloads"
 		};
 
 		std::vector<const char*> files =

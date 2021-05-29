@@ -1,14 +1,12 @@
 #pragma once
+#include "../AresLog.h"
 namespace AresConsole
 {
 	class AresCommandObject
 	{
 	public:
-		AresCommandObject();
-		~AresCommandObject();
-
-		bool execute(char*);
-		bool is_cmd(char*);
+		virtual bool execute(char*);
+		virtual bool is_cmd(char*);
 	};
 }
 

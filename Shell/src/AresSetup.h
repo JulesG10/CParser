@@ -20,6 +20,9 @@ namespace AresConsole
 		
 		bool is_admin();
 		bool request_admin();
+
+		char* get_location();
+		void set_location(char*);
 	private:
 		char* location_path;
 		void verify_files();
@@ -30,7 +33,7 @@ namespace AresConsole
 
 		bool isAdmin = false;
 
-		void set_location(char*);
+		
 
 		AresLog* log;
 		AresIO* io;

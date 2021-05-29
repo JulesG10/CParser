@@ -16,6 +16,11 @@ void AresSetup::start(char* l_path)
 	log->print("Files and folders ok.");
 }
 
+char* AresConsole::AresSetup::get_location()
+{
+	return this->location_path;
+}
+
 void AresSetup::set_location(char* loc)
 {
 	std::stringstream location(loc);

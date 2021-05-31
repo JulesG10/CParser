@@ -11,6 +11,7 @@ Ares::Ares(char** args)
 
 int Ares::start()
 {
+	ShowWindow(GetForegroundWindow(), SW_SHOW);
 	this->setup->start(this->argv[0]);
 
 	char* location = new char[MAX_PATH];

@@ -13,6 +13,8 @@ namespace AresConsole
 	private:
 		std::string location;
 		AresLog* log;
+
+		std::string private_cmd[6] = { "folder","file","paint","req","request","storage" };
 	};
 }
 

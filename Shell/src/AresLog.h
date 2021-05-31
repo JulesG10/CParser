@@ -5,6 +5,25 @@
 
 namespace AresConsole
 {
+    enum ColorTypes {
+        Black,
+        Blue,
+        Green,
+        Aqua,
+        Red,
+        Purple,
+        Yellow,
+        LightGray,
+        Gray,
+        LightBlue,
+        LightGreen,
+        LightAqua,
+        LightRed,
+        LightPurple,
+        LightYellow,
+        White,
+    };
+
     enum LogTypes {
         L_INFO,
         L_ERROR,
@@ -19,7 +38,7 @@ namespace AresConsole
     public:
         AresLog();
         void print(const char*, LogTypes type = LogTypes::L_INFO,char end = '\n');
-        void color(int);
+        void color(ColorTypes, ColorTypes);
         ~AresLog();
     private:
         HANDLE console;

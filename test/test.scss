@@ -1,0 +1,21 @@
+.test,  .aze , .ok 
+{
+    color:"#ccc";
+    backgroundColor:red;
+    image: url( "coucou.png" , aze, "nice.jpeg","str");
+    animation:
+    { 
+        duration:   red;
+        test: ok;
+    };
+} 
+
+.aze{}
+
+.nice{
+    cool:
+    {
+        ctxinner:test;
+    };
+    func:aze();
+}

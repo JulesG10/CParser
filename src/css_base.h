@@ -1,7 +1,7 @@
 #ifndef _CSS_
 #define _CSS_
 
-#include<stdlib.h>
+#include <stdlib.h>
 #include "str.h"
 
 #define NEW_LINE '\n'
@@ -16,12 +16,20 @@
 #define PARAM_END ')'
 #define NEXT_VALUE ','
 
+typedef enum css_attr_type
+{
+    PERCENT,
+    FLOAT,
+    STR,
+    FUNCTION,
+    ATTRIBUTE_PARAM,
+    INNER_CONTEXT
+} css_attr_type;
 
 typedef struct css_attr_v
 {
-    string value_type;
+    css_attr_type value_type;
     string value_data;
-    size_t value_len;
 } css_attr_v;
 
 typedef struct css_attr
@@ -39,7 +47,5 @@ typedef struct css_style
     css_attr *attributes;
     size_t attr_length;
 } css_style;
-
-
 
 #endif // !_CSS_

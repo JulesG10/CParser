@@ -24,8 +24,49 @@
 //     }
 // }
 
-bool parse_attr_value(int *index, string text, css_attr_v *value)
+bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *values_length)
 {
+    size_t sizeV = (*values_length);
+
+    for (int i = (*index); i < text.length; i++)
+    {
+        remove_none(&i, text);
+
+        css_attr_v value;
+        value.value_data.buffer = malloc(sizeof(char) * 0);
+        value.value_data.length = 0;
+
+        get_namevalid(&i, text, &value.value_data, VALID_NAME);
+
+        remove_none(&i, text);
+
+        if (value.value_data.length <= 0)
+        {
+            value.value_type = ATTRIBUTE_PARAM;
+            if (text.buffer[i] == END_ATTRIBUTE)
+            {
+                (*index) = i;
+                break; // end
+            }
+            else if (text.buffer[i] == NEXT_VALUE)
+            {
+                i++; // next param
+            }
+            else if (text.buffer[i] == PARAM_START)
+            {
+                i++; // parse function
+            }
+            else
+            {
+                printf("invalid attribute value next %c\n", text.buffer[i]);
+                return false;
+            }
+        }
+        else
+        {
+        }
+    }
+
     return true;
 }
 
@@ -39,7 +80,7 @@ bool parse_css_attr(int *index, string text, css_attr *attr)
 
     int i = (*index);
     remove_none(&i, text);
-    get_namevalid(&i, text, &attr->name);
+    get_namevalid(&i, text, &attr->name, VALID_PARTS_NAME);
 
     if (attr->name.length > 0)
     {
@@ -47,8 +88,7 @@ bool parse_css_attr(int *index, string text, css_attr *attr)
         {
             remove_none(&i, text);
 
-            css_attr_v value;
-            parse_attr_value(&i, text, &value);
+            parse_attr_value(&i, text, &attr->values, &attr->values_length);
 
             remove_none(&i, text);
 
@@ -86,7 +126,7 @@ bool parse_style_ctx(int *index, string text, css_style *style)
         {
             style->attr_length++;
             style->attributes = realloc(style->attributes, sizeof(css_attr) * style->attr_length);
-            
+
             if (!parse_css_attr(&i, text, &(style->attributes[style->attr_length - 1])))
             {
                 return false;
@@ -116,7 +156,7 @@ bool parse_id(int *index, string text, css_style *style)
             style->id_list[last].length = 0;
             style->id_list[last].buffer = malloc(sizeof(char) * 0);
 
-            get_namevalid(&i, text, &(style->id_list[last]));
+            get_namevalid(&i, text, &(style->id_list[last]), VALID_ID);
 
             if (style->id_list[last].length > 0)
             {

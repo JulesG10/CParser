@@ -4,7 +4,7 @@
 int main(int argc, char **argv)
 {
     string test;
-    strconvert(".aze, .b , .a { backgroundColor: ; }", &test);
+    strconvert(".aze, .b , .a { backgroundColor:red, url(\"nice\") ; }", &test);
 
     int index = 0;
     css_style style;

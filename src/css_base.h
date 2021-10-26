@@ -16,21 +16,46 @@
 #define PARAM_END ')'
 #define NEXT_VALUE ','
 
-typedef enum css_attr_type
+typedef struct css_attr_v css_attr_v;
+
+typedef enum css_type
 {
-    PERCENT,
-    FLOAT,
+    NUMBER,
     STR,
     FUNCTION,
-    ATTRIBUTE_PARAM,
-    INNER_CONTEXT
+    ATTR_PARAM,
+    INNER_CONTEXT,
+    NONE
 } css_attr_type;
 
-typedef struct css_attr_v
+typedef struct css_num_v
 {
-    css_attr_type value_type;
-    string value_data;
-} css_attr_v;
+    string num_type;
+    string num_value;
+} css_num_v;
+typedef struct css_func
+{
+    size_t length;
+    css_attr_v *values;
+    string func_name;
+} css_func;
+
+typedef struct css_innerctx
+{
+    size_t length;
+    css_attr_v *values;
+} css_innerctx;
+
+struct css_attr_v
+{
+    css_num_v num;
+    css_func func;
+    css_innerctx ctx;
+    string data;
+
+    css_attr_type type;
+};
+
 
 typedef struct css_attr
 {

@@ -22,6 +22,7 @@ void strcopy(string *dst, const string *src);
 void strfree(string *str);
 void strconvert(char *str, string *dst);
 void strprint(string str);
+bool strstart(char fistch, string listch);
 bool strin(char ch, string str);
 size_t strsplit(string *str, const char ch, string **list);
 
@@ -168,6 +169,18 @@ bool strin(char ch, string str)
     for (size_t k = 0; k < str.length; k++)
     {
         if (ch == str.buffer[k])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool strstart(char fistch, string listch)
+{
+    for (int k = 0; k < listch.length; k++)
+    {
+        if (listch.buffer[k] == fistch)
         {
             return true;
         }

@@ -8,21 +8,238 @@
 #include "./css_base.h"
 #include "./parser_util.h"
 
-// void strfix(string *t)
-// {
-//     if (strlen(t->buffer) != t->length)
-//     {
-//         char *buff = malloc(t->length * sizeof(char));
-//         for (size_t i = 0; i < t->length; i++)
-//         {
-//             buff[i] = t->buffer[i];
-//         }
+bool parse_func_type(int *index, string text, css_func *func);
+enum css_type getnext_type(int *index, string text);
+bool parse_attrname_type(int *index, string text, string *out);
+bool parse_number_type(int *index, string text, css_num_v *num);
+bool parse_string_type(int *index, string text, string *out);
+bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *values_length);
+bool parse_css_attr(int *index, string text, css_attr *attr);
+bool parse_style_ctx(int *index, string text, css_style *style);
+bool parse_id(int *index, string text, css_style *style);
 
-//         free(t->buffer);
-//         t->buffer = malloc(t->length * sizeof(char));
-//         t->buffer = strcpy(t->buffer, buff);
-//     }
-// }
+enum css_type getnext_type(int *index, string text)
+{
+    string numvalid;
+    strbuild(&numvalid, "0123456789", 10);
+    if (strstart(text.buffer[(*index)], numvalid))
+    {
+        return NUMBER;
+    }
+
+    if (text.buffer[(*index)] == STRING)
+    {
+        return STR;
+    }
+
+    if (text.buffer[(*index)] == CTX_START)
+    {
+        return INNER_CONTEXT;
+    }
+
+    int tmpI = (*index);
+    if (strstart(text.buffer[tmpI], VALID_NAME))
+    {
+        string tmpName;
+        strbuild(&tmpName, "", 0);
+        get_namevalid(&tmpI, text, &tmpName, VALID_NAME);
+        if (tmpName.length != 0)
+        {
+            if (text.buffer[tmpI] == PARAM_START)
+            {
+                return FUNCTION;
+            }
+        }
+
+        return ATTR_PARAM;
+    }
+
+    return NONE;
+}
+
+bool parse_func_type(int *index, string text, css_func *func)
+{
+    remove_none(index, text);
+    strbuild(&func->func_name, "", 0);
+
+    get_namevalid(index, text, &func->func_name, VALID_NAME);
+    if (func->func_name.length == 0)
+    {
+        printf("invalid function name\n");
+        return false;
+    }
+
+    func->length = 0;
+    func->values = malloc(sizeof(css_attr_v) * func->length);
+
+    if (expect_c(index, text, PARAM_START))
+    {
+        for (int i = (*index); i < text.length; i++)
+        {
+            remove_none(&i, text);
+            enum css_type type = getnext_type(&i, text);
+
+            if (type == NONE)
+            {
+                i++;
+                remove_none(&i, text);
+                if (expect_c(&i, text, PARAM_END))
+                {
+                    (*index) = i;
+                    return true;
+                }
+                break;
+            }
+            else if (type == STR)
+            {
+                func->length++;
+                func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
+                func->values[func->length].type = type;
+
+                strbuild(&func->values[func->length].data, "", 0);
+
+                if (!parse_string_type(&i, text, &func->values[func->length].data))
+                {
+                    return false;
+                }
+
+                remove_none(&i, text);
+                if (text.buffer[i] == PARAM_END)
+                {
+                    i++;
+                    (*index) = i;
+                    return true;
+                }
+                else if (text.buffer[i] == NEXT_VALUE)
+                {
+                    i++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (type == NUMBER)
+            {
+                func->length++;
+                func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
+                func->values[func->length].type = type;
+
+                strbuild(&func->values[func->length].num.num_value, "", 0);
+                strbuild(&func->values[func->length].num.num_type, "", 0);
+
+                if (!parse_number_type(&i, text, &func->values[func->length].num))
+                {
+                    return false;
+                }
+
+                remove_none(&i, text);
+                if (text.buffer[i] == PARAM_END)
+                {
+                    i++;
+                    (*index) = i;
+                    return true;
+                }
+                else if (text.buffer[i] == NEXT_VALUE)
+                {
+                    i++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (type == ATTR_PARAM)
+            {
+                func->length++;
+                func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
+                func->values[func->length].type = type;
+                if (!parse_attrname_type(&i, text, &func->values->data))
+                {
+                    return false;
+                }
+
+                remove_none(&i, text);
+                if (text.buffer[i] == PARAM_END)
+                {
+                    i++;
+                    (*index) = i;
+                    return true;
+                }
+                else if (text.buffer[i] == NEXT_VALUE)
+                {
+                    i++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool parse_attrname_type(int *index, string text, string *out)
+{
+    get_namevalid(index, text, out, VALID_NAME);
+    if (out->length == 0)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool parse_number_type(int *index, string text, css_num_v *num)
+{
+    string numvalid;
+    strbuild(&numvalid, "0123456789", 10);
+
+    if (!strstart(text.buffer[(*index)], numvalid))
+    {
+        return false;
+    }
+
+    get_namevalid(index, text, &num->num_value, VALID_NUMBER);
+    if (num->num_value.length == 0)
+    {
+        return false;
+    }
+
+    get_namevalid(index, text, &num->num_type, VALID_NAME);
+    if (num->num_type.length == 0)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool parse_string_type(int *index, string text, string *out)
+{
+    if (expect_c(index, text, STRING))
+    {
+        int i = (*index);
+        for (i = i; i < text.length; i++)
+        {
+            if (text.buffer[i] == STRING)
+            {
+                i++;
+                (*index) = i;
+                return true;
+            }
+            stradd(out, text.buffer[i]);
+        }
+    }
+
+    return false;
+}
 
 bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *values_length)
 {
@@ -31,39 +248,82 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
     for (int i = (*index); i < text.length; i++)
     {
         remove_none(&i, text);
-
-        css_attr_v value;
-        value.value_data.buffer = malloc(sizeof(char) * 0);
-        value.value_data.length = 0;
-
-        get_namevalid(&i, text, &value.value_data, VALID_NAME);
-
-        remove_none(&i, text);
-
-        if (value.value_data.length <= 0)
+        if (text.buffer[i] == END_ATTRIBUTE)
         {
-            value.value_type = ATTRIBUTE_PARAM;
-            if (text.buffer[i] == END_ATTRIBUTE)
-            {
-                (*index) = i;
-                break; // end
-            }
-            else if (text.buffer[i] == NEXT_VALUE)
-            {
-                i++; // next param
-            }
-            else if (text.buffer[i] == PARAM_START)
-            {
-                i++; // parse function
-            }
-            else
-            {
-                printf("invalid attribute value next %c\n", text.buffer[i]);
-                return false;
-            }
+            // i++;
+            (*index) = i;
+            break;
         }
         else
         {
+            enum css_type type = getnext_type(&i, text);
+            sizeV++;
+            (*values) = realloc((*values), sizeof(css_attr_v) * sizeV);
+
+            if (type == FUNCTION)
+            {
+                if (!parse_func_type(&i, text, &(*values)[sizeV - 1].func))
+                {
+                    printf("invalid function type %c\n", text.buffer[i]);
+                    return false;
+                }
+            }
+            else if (type == STR)
+            {
+                strbuild(&(*values)[sizeV - 1].data, "", 0);
+                if (!parse_string_type(&i, text, &(*values)[sizeV - 1].data))
+                {
+                    printf("invalid string type %c\n", text.buffer[i]);
+                    return false;
+                }
+            }
+            else if (type == NUMBER)
+            {
+                strbuild(&(*values)[sizeV - 1].num.num_type, "", 0);
+                strbuild(&(*values)[sizeV - 1].num.num_value, "", 0);
+
+                if (!parse_number_type(&i, text, &(*values)[sizeV - 1].num))
+                {
+                    printf("invalid number type %c\n", text.buffer[i]);
+                    return false;
+                }
+            }
+            else if (type == INNER_CONTEXT)
+            {
+                printf("(TODO) inner_context %c\n", text.buffer[i]);
+                return false;
+            }
+            else if (type == ATTR_PARAM)
+            {
+                strbuild(&(*values)[sizeV - 1].data, "", 0);
+                if (!parse_attrname_type(&i, text, &(*values)[sizeV - 1].data))
+                {
+                    printf("invalid attr value %c\n", text.buffer[i]);
+                    return false;
+                }
+            }
+            else
+            {
+                printf("no type found %c\n", text.buffer[i]);
+                return false;
+            }
+
+            remove_none(&i, text);
+            if (text.buffer[i] == END_ATTRIBUTE)
+            {
+                // i++;
+                (*index) = i;
+                break;
+            }
+            else if (text.buffer[i] == NEXT_VALUE)
+            {
+                i++;
+            }
+            else
+            {
+                printf("invalid next attribute value %c\n", text.buffer[i]);
+                return false;
+            }
         }
     }
 
@@ -86,10 +346,18 @@ bool parse_css_attr(int *index, string text, css_attr *attr)
     {
         if (expect_c(&i, text, START_ATTRIBUTE))
         {
+            printf("attribute <");
+            strprint(attr->name);
+            printf(">\n");
+
             remove_none(&i, text);
 
-            parse_attr_value(&i, text, &attr->values, &attr->values_length);
-
+            if (!parse_attr_value(&i, text, &attr->values, &attr->values_length))
+            {
+                printf("invalid attribute value\n");
+                return false;
+            }
+            
             remove_none(&i, text);
 
             if (!expect_c(&i, text, END_ATTRIBUTE))
@@ -104,8 +372,8 @@ bool parse_css_attr(int *index, string text, css_attr *attr)
             return false;
         }
     }
-
-    return true;
+    (*index) = i;
+     return true;
 }
 
 bool parse_style_ctx(int *index, string text, css_style *style)
@@ -130,6 +398,12 @@ bool parse_style_ctx(int *index, string text, css_style *style)
             if (!parse_css_attr(&i, text, &(style->attributes[style->attr_length - 1])))
             {
                 return false;
+            }
+            remove_none(&i,text);
+            if (text.buffer[i] == CTX_END)
+            {
+                (*index) = i;
+                break;
             }
         }
     }

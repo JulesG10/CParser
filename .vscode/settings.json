@@ -1,3 +1,7 @@
 {
+    "files.associations": {
+        "*.cs": "csharp",
+        "type_traits": "cpp"
+    }
 
 }

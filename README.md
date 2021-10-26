@@ -14,13 +14,14 @@
 ```
 
 ```scss
-.id_1, .id_2, .id_3
-{
+.id1,
+.id2,
+.id3 {
     background-color: url("http://color.rgb"), first, "[a-zA-Z0-9]+";
     align: center, x, y;
-    click: open("/hello"), background, hidden, "<empty>";
-    size: 100px, 100%;
+    click: open("/hello"), background, hidden, "empty";
+    size: 100px, 100rem;
 }
 
-.next_id {}
+.nextid {}
 ```

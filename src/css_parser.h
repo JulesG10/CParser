@@ -94,17 +94,17 @@ bool parse_func_type(int *index, string text, css_func *func)
             {
                 func->length++;
                 func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
-                func->values[func->length-1].type = type;
+                func->values[func->length - 1].type = type;
 
-                strbuild(&func->values[func->length-1].data, "", 0);
+                strbuild(&func->values[func->length - 1].data, "", 0);
 
-                if (!parse_string_type(&i, text, &func->values[func->length-1].data))
+                if (!parse_string_type(&i, text, &func->values[func->length - 1].data))
                 {
                     return false;
                 }
 
                 printf("function_param (string) <");
-                strprint(func->values[func->length-1].data);
+                strprint(func->values[func->length - 1].data);
                 printf(">\n");
 
                 remove_none(&i, text);
@@ -127,18 +127,18 @@ bool parse_func_type(int *index, string text, css_func *func)
             {
                 func->length++;
                 func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
-                func->values[func->length-1].type = type;
+                func->values[func->length - 1].type = type;
 
-                strbuild(&func->values[func->length-1].num.num_value, "", 0);
-                strbuild(&func->values[func->length-1].num.num_type, "", 0);
+                strbuild(&func->values[func->length - 1].num.num_value, "", 0);
+                strbuild(&func->values[func->length - 1].num.num_type, "", 0);
 
-                if (!parse_number_type(&i, text, &func->values[func->length-1].num))
+                if (!parse_number_type(&i, text, &func->values[func->length - 1].num))
                 {
                     return false;
                 }
 
                 printf("function_param (number) <");
-                strprint(func->values[func->length-1].num.num_value);
+                strprint(func->values[func->length - 1].num.num_value);
                 printf(">\n");
 
                 remove_none(&i, text);
@@ -161,7 +161,7 @@ bool parse_func_type(int *index, string text, css_func *func)
             {
                 func->length++;
                 func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
-                func->values[func->length-1].type = type;
+                func->values[func->length - 1].type = type;
                 if (!parse_attrname_type(&i, text, &func->values->data))
                 {
                     return false;
@@ -360,13 +360,13 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
 
 bool parse_css_attr(int *index, string text, css_attr *attr)
 {
-    attr->name.length = 0;
-    attr->name.buffer = malloc(sizeof(char) * 0);
+    strbuild(&attr->name, "", 0);
 
     attr->values_length = 0;
     attr->values = malloc(sizeof(css_attr_v) * attr->values_length);
 
     int i = (*index);
+    i--;
     remove_none(&i, text);
     get_namevalid(&i, text, &attr->name, VALID_PARTS_NAME);
 
@@ -464,7 +464,7 @@ bool parse_id(int *index, string text, css_style *style)
             {
                 printf("id <");
                 strprint(style->id_list[last]);
-                printf(";%d>\n", style->id_list[last].length);
+                printf(">\n");
 
                 remove_none(&i, text);
                 if (text.buffer[i] != NEXT_VALUE)

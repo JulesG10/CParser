@@ -3,4 +3,5 @@
 cd "C:\Users\jules\OneDrive\Bureau\CParser\src"
 gcc -static-libgcc -static-libstdc++ -std=gnu11 "main.c" -o "../build/css.exe"
 cd "C:\Users\jules\OneDrive\Bureau\CParser"
-"./build/css.exe" "C:\Users\jules\OneDrive\Bureau\CParser\test\test.scss"
+@REM "C:\Users\jules\OneDrive\Bureau\CParser\test\test.scss"
+"./build/css.exe" "C:\Users\jules\OneDrive\Bureau\CParser\test\easy.scss"

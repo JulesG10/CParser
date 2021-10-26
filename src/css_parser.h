@@ -94,14 +94,18 @@ bool parse_func_type(int *index, string text, css_func *func)
             {
                 func->length++;
                 func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
-                func->values[func->length].type = type;
+                func->values[func->length-1].type = type;
 
-                strbuild(&func->values[func->length].data, "", 0);
+                strbuild(&func->values[func->length-1].data, "", 0);
 
-                if (!parse_string_type(&i, text, &func->values[func->length].data))
+                if (!parse_string_type(&i, text, &func->values[func->length-1].data))
                 {
                     return false;
                 }
+
+                printf("function_param (string) <");
+                strprint(func->values[func->length-1].data);
+                printf(">\n");
 
                 remove_none(&i, text);
                 if (text.buffer[i] == PARAM_END)
@@ -123,15 +127,19 @@ bool parse_func_type(int *index, string text, css_func *func)
             {
                 func->length++;
                 func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
-                func->values[func->length].type = type;
+                func->values[func->length-1].type = type;
 
-                strbuild(&func->values[func->length].num.num_value, "", 0);
-                strbuild(&func->values[func->length].num.num_type, "", 0);
+                strbuild(&func->values[func->length-1].num.num_value, "", 0);
+                strbuild(&func->values[func->length-1].num.num_type, "", 0);
 
-                if (!parse_number_type(&i, text, &func->values[func->length].num))
+                if (!parse_number_type(&i, text, &func->values[func->length-1].num))
                 {
                     return false;
                 }
+
+                printf("function_param (number) <");
+                strprint(func->values[func->length-1].num.num_value);
+                printf(">\n");
 
                 remove_none(&i, text);
                 if (text.buffer[i] == PARAM_END)
@@ -153,11 +161,15 @@ bool parse_func_type(int *index, string text, css_func *func)
             {
                 func->length++;
                 func->values = realloc(func->values, sizeof(css_attr_v) * func->length);
-                func->values[func->length].type = type;
+                func->values[func->length-1].type = type;
                 if (!parse_attrname_type(&i, text, &func->values->data))
                 {
                     return false;
                 }
+
+                printf("function_param (attribute) <");
+                strprint(func->values->data);
+                printf(">\n");
 
                 remove_none(&i, text);
                 if (text.buffer[i] == PARAM_END)
@@ -267,6 +279,10 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
                     printf("invalid function type %c\n", text.buffer[i]);
                     return false;
                 }
+
+                printf("function <");
+                strprint((*values)[sizeV - 1].func.func_name);
+                printf(">\n");
             }
             else if (type == STR)
             {
@@ -276,6 +292,10 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
                     printf("invalid string type %c\n", text.buffer[i]);
                     return false;
                 }
+
+                printf("string <");
+                strprint((*values)[sizeV - 1].data);
+                printf(">\n");
             }
             else if (type == NUMBER)
             {
@@ -287,6 +307,10 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
                     printf("invalid number type %c\n", text.buffer[i]);
                     return false;
                 }
+
+                printf("number <");
+                strprint((*values)[sizeV - 1].num.num_value);
+                printf(">\n");
             }
             else if (type == INNER_CONTEXT)
             {
@@ -301,6 +325,10 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
                     printf("invalid attr value %c\n", text.buffer[i]);
                     return false;
                 }
+
+                printf("attribute_param <");
+                strprint((*values)[sizeV - 1].data);
+                printf(">\n");
             }
             else
             {
@@ -317,7 +345,7 @@ bool parse_attr_value(int *index, string text, css_attr_v **values, size_t *valu
             }
             else if (text.buffer[i] == NEXT_VALUE)
             {
-                i++;
+                // i++;
             }
             else
             {
@@ -357,7 +385,7 @@ bool parse_css_attr(int *index, string text, css_attr *attr)
                 printf("invalid attribute value\n");
                 return false;
             }
-            
+
             remove_none(&i, text);
 
             if (!expect_c(&i, text, END_ATTRIBUTE))
@@ -373,7 +401,7 @@ bool parse_css_attr(int *index, string text, css_attr *attr)
         }
     }
     (*index) = i;
-     return true;
+    return true;
 }
 
 bool parse_style_ctx(int *index, string text, css_style *style)
@@ -399,7 +427,7 @@ bool parse_style_ctx(int *index, string text, css_style *style)
             {
                 return false;
             }
-            remove_none(&i,text);
+            remove_none(&i, text);
             if (text.buffer[i] == CTX_END)
             {
                 (*index) = i;
@@ -449,12 +477,13 @@ bool parse_id(int *index, string text, css_style *style)
                             return false;
                         }
 
-                        if (text.buffer[i] != CTX_END)
+                        if (!expect_c(&i, text, CTX_END))
                         {
                             printf("invalid ctx end %c\n", text.buffer[i]);
                             return false;
                         }
 
+                        (*index) = i;
                         printf("end <context>\n");
                         break;
                     }

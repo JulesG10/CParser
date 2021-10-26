@@ -151,7 +151,7 @@ void strcopy(string *dst, const string *src)
 
 void strconvert(char *str, string *dst)
 {
-    dst->length = strlen(str) + 1;
+    dst->length = strlen(str) ;//+ 1;
     dst->buffer = malloc(sizeof(char) * dst->length);
     dst->buffer = strcpy(dst->buffer, str);
 }
